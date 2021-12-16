@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build OpenWrt
+name: P2W R619AC 4G immortalwrt
 
 on:
   repository_dispatch:
