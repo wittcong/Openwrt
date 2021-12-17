@@ -74,6 +74,13 @@ jobs:
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
 
+    - name: change for argon
+      run: |
+        rm -rf package/lean/luci-theme-argon
+        git clone https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+        git clone https://github.com/jerrykuku/luci-app-argon-config.git package/lean/luci-app-argon-config
+        sed -i 's/luci-theme-bootstrap/luci-theme-argon/' feeds/luci/collections/luci/Makefile
+
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
