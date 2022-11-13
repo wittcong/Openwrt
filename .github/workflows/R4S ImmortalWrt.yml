@@ -121,12 +121,12 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "strDate=$(TZ=UTC-8 date +%Y-%m-%d)" >> $GITHUB_ENV
 
-    - name: login to upload firmware to cowtransfer
+    - name: Upload firmware to cowtransfer
       id: cowtransfer
       if: env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
-        curl -sL https://git.io/cowtransfer | sh
-        ./cowtransfer-uploader -c "remember-mev2=${{ env.REMEMBER_MEV2 }};" -a "${{ env.COW_AUTH_TOKEN }}" ${{ env.FIRMWARE }}/${{ env.FILE_NAME }}
+        curl -sL https://git.io/file-transfer | sh
+        ./transfer cow --cookie="remember-mev2=${{ env.REMEMBER_MEV2 }};" -a "${{ env.COW_AUTH_TOKEN }}" ${{ env.FIRMWARE }}/${{ env.FILE_NAME }}
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
