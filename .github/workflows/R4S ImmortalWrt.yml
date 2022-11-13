@@ -26,8 +26,10 @@ env:
   CONFIG_FILE: R4S_ImmortalWrt.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
-  UPLOAD_BIN_DIR: false
+  FILE_NAME: immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
   UPLOAD_COWTRANSFER: true
+  REMEMBER_MEV2: MTg1MTAwMDI1ODA6MTY2OTUxMjMwODU0OTpjNDU3Njk5M2FhNDY2NWEyMjY4Yjg4ODIxNjY5YmVlOQ
+  COW_AUTH_TOKEN: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJndWlkIjoiODUzODExMWQtMDEwMC00MzcwLWE0YWUtZGI5YjUxNjA4Nzc4IiwiZXhwIjoxNjY4OTA3NTA4fQ.cV6jC3tpjLBE1wgvmT5qmLuEnSkfx7J4C5iFqVKXQqU
   UPLOAD_WETRANSFER: false
   UPLOAD_RELEASE: true
   TZ: Asia/Shanghai
@@ -124,7 +126,7 @@ jobs:
       if: env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -sL https://git.io/cowtransfer | sh
-        ./cowtransfer-uploader -c "remember-mev2=MTg1MTAwMDI1ODA6MTY2OTUxMjMwODU0OTpjNDU3Njk5M2FhNDY2NWEyMjY4Yjg4ODIxNjY5YmVlOQ;" -a "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJndWlkIjoiODUzODExMWQtMDEwMC00MzcwLWE0YWUtZGI5YjUxNjA4Nzc4IiwiZXhwIjoxNjY4OTA3NTA4fQ.cV6jC3tpjLBE1wgvmT5qmLuEnSkfx7J4C5iFqVKXQqU" ${FIRMWARE}/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
+        ./cowtransfer-uploader -c "remember-mev2=${{ env.REMEMBER_MEV2 }};" -a "${{ env.COW_AUTH_TOKEN }}" ${{ env.FIRMWARE }}/${{ env.FLIE_NAME }}
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
@@ -140,7 +142,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ env.FIRMWARE }}/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
+        file: ${{ env.FIRMWARE }}/${{ env.FLIE_NAME }}
         tag: ${{env.strDate}}
         file_glob: true
         overwrite: true
