@@ -131,9 +131,9 @@ jobs:
       if: env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -sL https://git.io/cowtransfer | sh
-        ./cowtransfer-uploader -s ${FIRMWARE}
+        ./cowtransfer-uploader -c "remember-mev2=MTg1MTAwMDI1ODA6MTY2OTUxMjMwODU0OTpjNDU3Njk5M2FhNDY2NWEyMjY4Yjg4ODIxNjY5YmVlOQ;" -a "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJndWlkIjoiODUzODExMWQtMDEwMC00MzcwLWE0YWUtZGI5YjUxNjA4Nzc4IiwiZXhwIjoxNjY4OTA3NTA4fQ.cV6jC3tpjLBE1wgvmT5qmLuEnSkfx7J4C5iFqVKXQqU" ${FIRMWARE}/openwrt-ipq40xx-p2w_r619ac-128m-squashfs-nand-factory.ubi
 
-    - name: Upload firmware to WeTransfer
+    - name: Login to upload firmware to WeTransfer
       id: wetransfer
       if: env.UPLOAD_WETRANSFER == 'true' && !cancelled()
       run: |
@@ -147,7 +147,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ env.FIRMWARE }}/*.ubi
+        file: ${{ env.FIRMWARE }}/openwrt-ipq40xx-p2w_r619ac-128m-squashfs-nand-factory.ubi
         tag: ${{env.strDate}}
         file_glob: true
         overwrite: true
