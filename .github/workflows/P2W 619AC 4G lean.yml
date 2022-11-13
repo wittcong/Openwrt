@@ -150,7 +150,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ env.FIRMWARE }}/openwrt-ipq40xx-p2w_r619ac-128m-squashfs-nand-factory.ubi
+        file: ${{ env.FIRMWARE }}/${{ env.FLIE_NAME }}
         tag: ${{env.strDate}}
         file_glob: true
         overwrite: true
