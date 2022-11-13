@@ -119,12 +119,12 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "strDate=$(TZ=UTC-8 date +%Y-%m-%d)" >> $GITHUB_ENV
 
-    - name: Upload firmware to cowtransfer
+    - name: login to upload firmware to cowtransfer
       id: cowtransfer
       if: env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -sL https://git.io/cowtransfer | sh
-        ./cowtransfer-uploader -s ${FIRMWARE}
+        ./cowtransfer-uploader -c "remember-mev2=MTg1MTAwMDI1ODA6MTY2OTUxMjMwODU0OTpjNDU3Njk5M2FhNDY2NWEyMjY4Yjg4ODIxNjY5YmVlOQ;" -a "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJndWlkIjoiODUzODExMWQtMDEwMC00MzcwLWE0YWUtZGI5YjUxNjA4Nzc4IiwiZXhwIjoxNjY4OTA3NTA4fQ.cV6jC3tpjLBE1wgvmT5qmLuEnSkfx7J4C5iFqVKXQqU" ${FIRMWARE}/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
@@ -140,7 +140,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ env.FIRMWARE }}/*.gz
+        file: ${{ env.FIRMWARE }}/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz
         tag: ${{env.strDate}}
         file_glob: true
         overwrite: true
