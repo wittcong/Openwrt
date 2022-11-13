@@ -126,7 +126,7 @@ jobs:
       if: env.UPLOAD_COWTRANSFER == 'true' && !cancelled()
       run: |
         curl -sL https://git.io/cowtransfer | sh
-        ./cowtransfer-uploader -c "remember-mev2=${{ env.REMEMBER_MEV2 }};" -a "${{ env.COW_AUTH_TOKEN }}" ${{ env.FIRMWARE }}/${{ env.FLIE_NAME }}
+        ./cowtransfer-uploader -c "remember-mev2=${{ env.REMEMBER_MEV2 }};" -a "${{ env.COW_AUTH_TOKEN }}" ${{ env.FIRMWARE }}/${{ env.FILE_NAME }}
 
     - name: Upload firmware to WeTransfer
       id: wetransfer
@@ -142,7 +142,7 @@ jobs:
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ env.FIRMWARE }}/${{ env.FLIE_NAME }}
+        file: ${{ env.FIRMWARE }}/${{ env.FILE_NAME }}
         tag: ${{env.strDate}}
         file_glob: true
         overwrite: true
